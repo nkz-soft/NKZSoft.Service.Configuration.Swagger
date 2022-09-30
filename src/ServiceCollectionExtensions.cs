@@ -1,6 +1,8 @@
 ﻿namespace NKZSoft.Service.Configuration.Swagger;
 
 using Configuration;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.Versioning;
 
 public static class ServiceCollectionExtensions
 {
@@ -38,11 +40,11 @@ public static class ServiceCollectionExtensions
         services.AddVersionedApiExplorer();
         var provider = services.BuildServiceProvider().GetService<IApiVersionDescriptionProvider>();
 
+        ArgumentNullException.ThrowIfNull(provider);
+
         services.AddSwaggerGen(c =>
         {
-            //Well about !
-            //I'd rather NRE here than not sure why an empty swagger
-            foreach (var description in provider!.ApiVersionDescriptions)
+            foreach (var description in provider.ApiVersionDescriptions)
             {
                 c.SwaggerDoc(description.GroupName, CreateInfoForApiVersion(description, serviceName));
             }
@@ -51,12 +53,24 @@ public static class ServiceCollectionExtensions
             c.CustomSchemaIds(x => x.FullName);
             c.EnableAnnotations();
 
-            c.TagActionsBy(api => new[] { api.GroupName });
-            c.DocInclusionPredicate((name, api) => true);
+            c.DocInclusionPredicate((name, api) =>
+            {
+                var actionApiVersionModel = api.ActionDescriptor
+                    .GetApiVersionModel(ApiVersionMapping.Implicit | ApiVersionMapping.Explicit);
+
+                if (actionApiVersionModel == null)
+                {
+                    return true;
+                }
+
+                return actionApiVersionModel.DeclaredApiVersions.Any() ?
+                    actionApiVersionModel.DeclaredApiVersions.Any(dv => dv.ToString() == name) :
+                    actionApiVersionModel.ImplementedApiVersions.Any(dv => dv.ToString() == name);
+            });
 
             var xmlFile = $"{serviceName}.xml";
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-            if (File.Exists(xmlFile))
+            if (File.Exists(xmlPath))
             {
                 c.IncludeXmlComments(xmlPath);
             }
