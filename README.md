@@ -7,3 +7,15 @@ NKZSoft.Service.Configuration.Swagger is Open API module to use with a microserv
 ## Using
 ```csharp
 services.AddSwagger(Configuration, Assembly.GetExecutingAssembly())
+```
+
+### JSON appsettings.json configuration
+
+```json
+{
+  "Swagger": {
+    "Enabled" : true,
+    "AuthorizationEnabled" : false
+  }
+}
+```
