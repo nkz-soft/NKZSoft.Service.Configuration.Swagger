@@ -4,6 +4,12 @@ using Configuration;
 
 public static class ApplicationBuilderExtensions
 {
+    /// <summary>
+    /// Register the Swagger middleware
+    /// </summary>
+    /// <param name="app">Defines a class that provides the mechanisms to configure an application's request pipeline.</param>
+    /// <param name="configuration">The <see cref="IConfiguration"/> containing settings to be used.</param>
+    /// <returns>The <see cref="IApplicationBuilder"/>.</returns>
     public static IApplicationBuilder UseSwagger(
         this IApplicationBuilder app,
         IConfiguration configuration)
@@ -12,6 +18,8 @@ public static class ApplicationBuilderExtensions
 
         var swaggerConfiguration = configuration.GetSection(SwaggerConfigurationSection.SectionName)
             .Get<SwaggerConfigurationSection>();
+
+        ArgumentNullException.ThrowIfNull(swaggerConfiguration, nameof(swaggerConfiguration));
 
         if (!swaggerConfiguration.Enabled == true)
         {

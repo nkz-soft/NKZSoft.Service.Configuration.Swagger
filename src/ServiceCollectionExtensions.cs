@@ -1,13 +1,18 @@
 ﻿namespace NKZSoft.Service.Configuration.Swagger;
 
 using Configuration;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Versioning;
 
 public static class ServiceCollectionExtensions
 {
     private const string DeprecationDescription = "This API version is obsolete.";
 
+    /// <summary>
+    /// Adds Swagger service to the specified services collection.
+    /// </summary>
+    /// <param name="services">The <see cref="IServiceCollection"/> to add the MassTransits to.</param>
+    /// <param name="configuration">The <see cref="IConfiguration"/> containing settings to be used.</param>
+    /// <param name="executingAssembly">The assembly that contains the code that is currently executing.</param>
+    /// <returns>The <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection AddSwagger(
         this IServiceCollection services,
         IConfiguration configuration,
@@ -29,6 +34,8 @@ public static class ServiceCollectionExtensions
 
         var swaggerConfiguration = configuration.GetSection(SwaggerConfigurationSection.SectionName)
             .Get<SwaggerConfigurationSection>();
+
+        ArgumentNullException.ThrowIfNull(swaggerConfiguration, nameof(swaggerConfiguration));
 
         if (swaggerConfiguration.Enabled == false)
         {

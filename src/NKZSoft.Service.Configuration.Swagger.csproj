@@ -1,16 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <LangVersion>latest</LangVersion>
-        <Nullable>enable</Nullable>
-        <EnableNETAnalyzers>true</EnableNETAnalyzers>
-        <AnalysisLevel>latest</AnalysisLevel>
+        <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
         <RepositoryUrl>https://github.com/nkz-soft/NKZSoft.Service.Configuration.Swagger</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
-        <Version>1.0.1</Version>
-        <PackageVersion>1.0.1</PackageVersion>
+        <Version>1.0.2</Version>
+        <PackageVersion>1.0.2</PackageVersion>
         <Description>Provides the configuration for Swagger</Description>
         <Copyright>Copyright © 2022</Copyright>
     </PropertyGroup>
