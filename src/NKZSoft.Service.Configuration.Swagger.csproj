@@ -7,6 +7,7 @@
         <PackageVersion>1.0.3</PackageVersion>
         <Description>Provides the configuration for Swagger</Description>
         <Copyright>Copyright © 2022</Copyright>
+        <OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
     </PropertyGroup>
 
     <ItemGroup>
