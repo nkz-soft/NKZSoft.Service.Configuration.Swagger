@@ -5,6 +5,7 @@ using Configuration;
 public static class ServiceCollectionExtensions
 {
     private const string DeprecationDescription = "This API version is obsolete.";
+    private static readonly string[] value = new[] { "Bearer" };
 
     /// <summary>
     /// Adds Swagger service to the specified services collection.
@@ -100,7 +101,7 @@ public static class ServiceCollectionExtensions
 
             c.AddSecurityDefinition("Bearer", securitySchema);
 
-            var securityRequirement = new OpenApiSecurityRequirement { { securitySchema, new[] { "Bearer" } } };
+            var securityRequirement = new OpenApiSecurityRequirement { { securitySchema, value } };
 
             c.AddSecurityRequirement(securityRequirement);
         });
